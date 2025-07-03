@@ -13,11 +13,11 @@
     <div class="card-header d-flex flex-wrap justify-content-center justify-content-xl-between">
 
     <div>
-        <a href="{{ route('userExcelKehadiran') }}" class="btn btn-sm btn-success">
+        <a href="#" class="btn btn-sm btn-success">
             <i class="fas fa-file-excel mr-2"></i>
             Excel
         </a>
-        <a href="{{ route('userPdfKehadiran') }}" class="btn btn-sm btn-danger" target='___blank'>
+        <a href="#" class="btn btn-sm btn-danger" target='___blank'>
             <i class="fas fa-file-pdf mr-2"></i>
             PDF
         </a>
@@ -29,7 +29,7 @@
         $kehadiranAktif = $kehadirans->where('user_id', $user->id)->firstWhere('out_time', null);
         @endphp
 
-        @if ($user->jabatan == 'Admin' && !$kehadiranAktif)
+        @if ($user->jabatan == 'Manajer' && !$kehadiranAktif)
         <div>
             <form method="POST" action="{{ route('kehadiranClockIn') }}">
                 @csrf
@@ -43,7 +43,7 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead class="bg-primary text-white text-center">
                     <tr>
                         <th>No</th>
@@ -86,11 +86,12 @@
                                 </button>
                             </form>
                             @endif
-                            <form method="POST" action="{{ route('kehadiranDestroy', $row->aten_id) }}" style="display:inline;">
+                            <form method="POST" action="{{ route('kehadiranDestroy', $row->aten_id) }}"
+                                style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal"
+                                    data-id="{{ $row->aten_id }}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>

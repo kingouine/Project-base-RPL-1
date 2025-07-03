@@ -27,7 +27,7 @@ Route::get('user/create',[UserController::class,'create'])->name('userCreate');
 Route::get('user/edit/{id}',[UserController::class,'edit'])->name('userEdit');
 Route::post('user/store',[UserController::class,'store'])->name('userStore');
 Route::post('user/update/{id}',[UserController::class,'update'])->name('userUpdate');
-Route::delete('user/destroy/{id}',[UserController::class,'destroy'])->name('userDestroy');
+Route::delete('user/destroy{id}',[UserController::class,'destroy'])->name('userDestroy');
 
 Route::get('user/excel',[UserController::class,'excel'])->name('userExcel');
 Route::get('user/pdf',[UserController::class,'pdf'])->name('userPdf');
@@ -43,6 +43,15 @@ Route::get('kehadiran/pdf',[KehadiranController::class,'pdfKehadiran'])->name('u
 
 //tugas
 Route::get('tugas',[TugasController::class,'index'])->name('tugas');
+Route::get('tugas/create',[TugasController::class,'create'])->name('tugasCreate');
+Route::get('tugas/edit{id}',[TugasController::class,'edit'])->name('tugasEdit');
+Route::post('tugas/update/{id}',[TugasController::class,'update'])->name('tugasUpdate');
+Route::delete('tugas/destroy/{id}', [TugasController::class, 'destroy'])->name('tugasDestroy');
+Route::post('tugas/store',[TugasController::class,'store'])->name('tugasStore');
+
+Route::get('tugas/excel',[TugasController::class,'excelTugas'])->name('excelTugas');
+Route::get('tugas/pdf',[TugasController::class,'pdfTugas'])->name('pdfTugas');
+
 
 //dashboard
 Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');

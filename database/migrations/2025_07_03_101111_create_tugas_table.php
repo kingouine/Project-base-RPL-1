@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('tugas');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->enum('status', ['Belum Selesai', 'On-Progress', 'Selesai']);
+            $table->boolean('status') ->default(false);
             $table->timestamps();
         });
     }

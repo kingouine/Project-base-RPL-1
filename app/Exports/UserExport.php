@@ -10,13 +10,14 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class UserExport implements FromView
 {
-    public function View(): View {
+    public function view(): View
+    {
         $data = array(
-            'kehadirans' => Kehadiran::orderBy( 'id_aten', 'asc')->get(),
-            'tanggal' => now()->format('d-m-Y'),
-            'jam' => now()->format('H.i.s'),
-
+            'user' => User::orderBy('jabatan','asc')->get(),
+            'tanggal' => now()->format ('d-m-Y'),
+            'jam' =>now()->format('H.i.s'),
         );
-        return view ('admin/kehadiran/excel', $data);
+        return view('admin/user/excel', $data);
     }
+
 }
