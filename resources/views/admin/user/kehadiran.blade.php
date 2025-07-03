@@ -28,16 +28,19 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead class="bg-primary text text-white">
-                                        <tr>
+                                        <tr class='text-center'>
                                         <th>Name</th>
                                         <th>In Time</th>
                                         <th>Out Time</th>
                                         <th>Total Duration</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th>
+                                            <i class="fas fa-cogs"></i>
+                                        </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach ( $user as $item )
                                         <tr>
                                             <td>Sari</td>
                                             <td>Sari@gmail.com</td>
@@ -50,7 +53,7 @@
                                                 </a>
                                             </td>   
                                         </tr>
-                                        
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

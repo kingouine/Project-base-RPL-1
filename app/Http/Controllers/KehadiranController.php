@@ -13,4 +13,8 @@ class KehadiranController extends Controller
         );
         return view('admin/user/Kehadiran', $data);
     }
+
+    public function kehadiranStore(Request $request) {
+
+    }
 }
