@@ -31,8 +31,15 @@ Route::delete('user/destroy/{id}',[UserController::class,'destroy'])->name('user
 
 Route::get('user/excel',[UserController::class,'excel'])->name('userExcel');
 Route::get('user/pdf',[UserController::class,'pdf'])->name('userPdf');
+
 //kehadiran
 Route::get('Kehadiran',[KehadiranController::class,'Kehadiran'])->name('Kehadiran');
+Route::post('kehadiran/clock-in', [KehadiranController::class, 'clockIn'])->name('kehadiranClockIn');
+Route::post('kehadiran/clock-out/{aten_id}', [KehadiranController::class, 'clockOut'])->name('kehadiranClockOut');
+Route::delete('kehadiran/destroy/{aten_id}', [KehadiranController::class, 'destroy'])->name('kehadiranDestroy');
+
+Route::get('kehadiran/excel',[KehadiranController::class,'excelKehadiran'])->name('userExcelKehadiran');
+Route::get('kehadiran/pdf',[KehadiranController::class,'pdfKehadiran'])->name('userPdfKehadiran');
 
 //tugas
 Route::get('tugas',[TugasController::class,'index'])->name('tugas');

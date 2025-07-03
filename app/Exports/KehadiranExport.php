@@ -8,11 +8,11 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class UserExport implements FromView
+class KehadiranExport implements FromView
 {
-    public function View(): View {
+    public function view(): View {
         $data = array(
-            'kehadirans' => Kehadiran::orderBy( 'id_aten', 'asc')->get(),
+            'kehadirans' => Kehadiran::orderBy( 'aten_id', 'asc')->get(),
             'tanggal' => now()->format('d-m-Y'),
             'jam' => now()->format('H.i.s'),
 
