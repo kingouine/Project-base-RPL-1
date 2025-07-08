@@ -89,8 +89,8 @@
                     <span>Data Tugas</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item {{ $menuKaryawanKehadiran ?? '' }}">
+                <a class="nav-link" href="{{ route ('kehadiranKaryawan') }}">
                     <i class="fas fa-clock"></i>
                     <span>Data Kehadiran</span></a>
             </li>
@@ -107,8 +107,8 @@
                     <span>Data Tugas</span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item {{ $menuManajerKehadiran ?? '' }}">
+                <a class="nav-link" href="{{  route('kehadiranManajer') }}">
                     <i class="fas fa-clock"></i>
                     <span>Data Kehadiran</span></a>
             </li>

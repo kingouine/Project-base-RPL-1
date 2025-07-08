@@ -40,6 +40,65 @@ class KehadiranController extends Controller
         ]);
     }
 
+    public function kehadiranManajer()
+    {
+        Carbon::setLocale('id');
+        $now = Carbon::now('Asia/Jakarta');
+
+        $user = auth()->user();
+
+        // Jika admin, tampilkan semua
+        if ($user->jabatan == 'Admin') {
+            $kehadirans = Kehadiran::with('user')
+                ->orderByDesc('in_time')
+                ->paginate(10);
+        } else {
+            // Jika bukan admin, tampilkan hanya miliknya sendiri
+            $kehadirans = Kehadiran::with('user')
+                ->where('user_id', $user->id)
+                ->orderByDesc('in_time')
+                ->paginate(10);
+        }
+
+        return view('manajer.kehadiran.index', [
+            'title' => 'Data Kehadiran',
+            'menuManajerKehadiran' => 'active',
+            'kehadirans' => $kehadirans,
+            'now' => $now
+        ]);
+    }
+    
+
+    public function kehadiranKaryawan()
+    {
+        Carbon::setLocale('id');
+        $now = Carbon::now('Asia/Jakarta');
+
+        $user = auth()->user();
+
+        // Jika admin, tampilkan semua
+        if ($user->jabatan == 'Admin') {
+            $kehadirans = Kehadiran::with('user')
+                ->orderByDesc('in_time')
+                ->paginate(10);
+        } else {
+            // Jika bukan admin, tampilkan hanya miliknya sendiri
+            $kehadirans = Kehadiran::with('user')
+                ->where('user_id', $user->id)
+                ->orderByDesc('in_time')
+                ->paginate(10);
+        }
+
+        return view('karyawan.kehadiran.index', [
+            'title' => 'Data Kehadiran',
+            'menuKaryawanKehadiran' => 'active',
+            'kehadirans' => $kehadirans,
+            'now' => $now
+        ]);
+    }
+
+
+
     public function clockIn()
     {
         $user = auth()->user();
