@@ -48,6 +48,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>Jabatan</th>
                         <th>Clock In</th>
                         <th>Clock Out</th>
                         <th>Total Duration</th>
@@ -60,6 +61,7 @@
                     <tr class="text-center">
                         <td>{{ $kehadirans->firstItem() + $i }}</td>
                         <td>{{ $row->user->nama }}</td>
+                        <td>{{ $row->user->jabatan }}</td>
                         <td>{{ $row->in_time }}</td>
                         <td>{{ $row->out_time ?? '-' }}</td>
                         <td>
