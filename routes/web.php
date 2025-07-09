@@ -47,6 +47,9 @@ Route::get('KehadiranManajer',[KehadiranController::class,'kehadiranManajer'])->
 //kehadiran karyawan
 Route::get('KehadiranKaryawan',[KehadiranController::class,'kehadiranKaryawan'])->name('kehadiranKaryawan');
 
+//tugas Karyawan
+Route::get('tugasKaryawan',[TugasController::class,'tugasKaryawan'])->name('tugasKaryawan');
+
 //tugas
 Route::get('tugas',[TugasController::class,'index'])->name('tugas');
 Route::get('tugas/create',[TugasController::class,'create'])->name('tugasCreate');

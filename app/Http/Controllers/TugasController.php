@@ -20,6 +20,15 @@ class TugasController extends Controller
         return view('manajer/tugas/index', $data);
     }
 
+    public function tugasKaryawan() {
+        $data = array(
+            'title' => 'Data Tugas Karyawan',
+            'menuKaryawanTugas' => "active",
+            'tugas' => Tugas::with('user')->get(),
+        );
+        return view ('karyawan/tugas/index', $data);
+    }
+
     public function create() {
         $data = array(
             'title' => 'Tambah Data Tugas',

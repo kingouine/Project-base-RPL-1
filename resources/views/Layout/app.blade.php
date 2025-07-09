@@ -83,8 +83,8 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+            <li class="nav-item {{ $menuKaryawanTugas ?? '' }}">
+                <a class="nav-link" href="{{ route('tugasKaryawan') }}">
                     <i class="fas fa-tasks"></i>
                     <span>Data Tugas</span></a>
             </li>

@@ -13,11 +13,11 @@
     <div class="card-header d-flex flex-wrap justify-content-center justify-content-xl-between">
 
     <div>
-        <a href="#" class="btn btn-sm btn-success">
+        <a href="{{ route('userExcelKehadiran') }}" class="btn btn-sm btn-success">
             <i class="fas fa-file-excel mr-2"></i>
             Excel
         </a>
-        <a href="#" class="btn btn-sm btn-danger" target='___blank'>
+        <a href="{{ route('userPdfKehadiran') }}" class="btn btn-sm btn-danger" target='___blank'>
             <i class="fas fa-file-pdf mr-2"></i>
             PDF
         </a>
