@@ -7,6 +7,7 @@ use App\Models\Tugas;
 use App\Exports\tugasExport;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TugasController extends Controller
@@ -21,10 +22,11 @@ class TugasController extends Controller
     }
 
     public function tugasKaryawan() {
+        $user = Auth::user();
         $data = array(
             'title' => 'Data Tugas Karyawan',
             'menuKaryawanTugas' => "active",
-            'tugas' => Tugas::with('user')->get(),
+            'tugas' => Tugas::with('user')->where('user_id', $user->id)->get(),
         );
         return view ('karyawan/tugas/index', $data);
     }
@@ -76,6 +78,23 @@ class TugasController extends Controller
         return view('manajer/tugas/edit', $data);
     }
 
+    public function editTugasKaryawan($id)
+{
+    $tugas = Tugas::with('user')->findOrFail($id);
+
+    if ($tugas->user_id !== Auth::id()) {
+        abort(403, 'Anda tidak memiliki akses untuk tugas ini.');
+    }
+
+    $data = [
+        'title' => 'Ubah Status Tugas',
+        'menuKaryawanTugas' => 'active',
+        'tugas' => $tugas,
+    ];
+
+    return view('karyawan/tugas/edit', $data);
+}
+
     public function update(Request $request, $id){
         $request->validate([
             'tugas' => 'required',
@@ -99,6 +118,25 @@ class TugasController extends Controller
         return redirect()->route('tugas')->with('success', 'Data Berhasil Diedit');
 
     }
+
+    public function updateTugasKaryawan(Request $request, $id)
+{
+    $tugas = Tugas::findOrFail($id);
+    if ($tugas->user_id !== Auth::id()) {
+        abort(403, 'Anda tidak berhak mengubah tugas ini.');
+    }
+
+    $request->validate([
+        'status' => 'required|in:0,1,2',
+    ], [
+        'status.required' => 'Status tidak boleh kosong.',
+    ]);
+
+    $tugas->status = $request->status;
+    $tugas->save();
+
+    return redirect()->route('tugas')->with('success', 'Status tugas berhasil diperbarui.');
+}
     public function destroy($id)
 {
         $tugas = Tugas::findOrFail($id);
@@ -111,7 +149,11 @@ class TugasController extends Controller
 }
 public function excelTugas(){
     $filename = now()->format ('d-m-Y_H.i.s');
-    return Excel::download(new tugasExport, 'Data Tugas'.$filename.'.xlsx');
+
+    $user = Auth::user();
+    $user_id = $user->id;
+    $role = $user->jabatan;
+    return Excel::download(new tugasExport($user_id, $role), 'Data Tugas'.$filename.'.xlsx');
 }
 public function pdfTugas() {
     $filename = now()->format ('d-m-Y_H.i.s');

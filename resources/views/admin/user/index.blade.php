@@ -80,12 +80,14 @@
                                                     <i class="fas fa-edit">
                                                     </i>
                                                 </a>
-                                                <button class="btn btn-sm btn-danger"
-                                                data-toggle="modal" data-target="#exampleModal">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                                @include ('admin/user/modal')
-                
+                                                <form method="POST" action="{{ route('userDestroy', $item->id) }}" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
                 
                                             </td>
                                         </tr>

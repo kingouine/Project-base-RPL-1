@@ -93,7 +93,7 @@ class UserController extends Controller
         return redirect()->route('user')->with('success','Data Berhasil Di Update');
     }
 
-    public function destroy(Request $id) {
+    public function destroy($id) {
         $user = User::findOrFail($id);
         $user -> delete();
 

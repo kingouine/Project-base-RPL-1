@@ -112,6 +112,12 @@
                     <i class="fas fa-clock"></i>
                     <span>Data Kehadiran</span></a>
             </li>
+            
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('evaluasi') }}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Evaluasi Karyawan</span></a>
+            </li>
 
 
             <!-- Divider -->

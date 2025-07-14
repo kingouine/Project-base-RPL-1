@@ -61,7 +61,7 @@
                         </td>
 
                         <td class="text-center">
-                            <a href="{{ route('tugasEdit', $item->id) }}" class="btn btn-sm btn-warning">
+                            <a href="{{ route('tugasKaryawanEdit', $item->id) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </td>

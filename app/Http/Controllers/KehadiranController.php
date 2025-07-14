@@ -8,6 +8,7 @@ use App\Exports\UserExport;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\KehadiranExport;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class KehadiranController extends Controller
@@ -147,30 +148,52 @@ class KehadiranController extends Controller
 }
     public function excelKehadiran(){
         $filename = now()->format ('d-m-Y_H.i.s');
-        return Excel::download(new KehadiranExport, 'DataKehadiran_'.$filename.'.xlsx');
+
+        $user = Auth::user();
+        $user_id = $user->id;
+        $role = $user->jabatan;
+        return Excel::download(new KehadiranExport($user_id, $role), 'DataKehadiran_'.$filename.'.xlsx');
 }
+
 public function pdfKehadiran()
 {
-    $kehadirans = Kehadiran::with('user')->get();
+    $user = Auth::user();
+    $role = $user->jabatan;
+    $user_id = $user->id;
 
+    // Admin bisa lihat semua data
+    if ($role === 'Admin') {
+        $kehadirans = Kehadiran::with('user')->get();
+    } else {
+        // Manajer dan Karyawan hanya lihat data mereka sendiri
+        $kehadirans = Kehadiran::with('user')
+            ->where('user_id', $user_id)
+            ->get();
+    }
+
+    // Hitung total_duration untuk masing-masing data
     foreach ($kehadirans as $item) {
-        if (is_null($item->total_duration) && $item->out_time) {
+        if ($item->in_time && $item->out_time) {
             $item->total_duration = Carbon::parse($item->in_time)
-                                    ->diff(Carbon::parse($item->out_time))
-                                    ->format('%H:%I:%S');
-        } elseif (is_null($item->out_time)) {
+                ->diff(Carbon::parse($item->out_time))
+                ->format('%H:%I:%S');
+        } elseif ($item->in_time && is_null($item->out_time)) {
             $item->total_duration = Carbon::parse($item->in_time)
-                                    ->diff(now())
-                                    ->format('%H:%I:%S');
+                ->diff(now())
+                ->format('%H:%I:%S');
+        } else {
+            $item->total_duration = '-';
         }
     }
 
     $tanggal = now()->format('d-m-Y');
     $jam = now()->format('H:i:s');
 
-    $pdf = PDF::loadView('admin/kehadiran/pdf', compact('kehadirans', 'tanggal', 'jam'));
-    return $pdf->stream('data-kehadiran.pdf');
+    $pdf = Pdf::loadView('admin.kehadiran.pdf', compact('kehadirans', 'tanggal', 'jam'));
+
+    return $pdf->stream('data-kehadiran-' . $tanggal . '.pdf');
 }
+
 
 
 }

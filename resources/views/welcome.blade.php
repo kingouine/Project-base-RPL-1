@@ -171,7 +171,7 @@
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
-            <div class="pic"><img src="{{ asset('eNno/assets/img/team/.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="pic"><img src="{{ asset('eNno/assets/img/team/Algih fari.jpg') }}" class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Alghifari Mumammad Bintang Salsabil</h4>
                 <span>10123410</span>
@@ -203,7 +203,7 @@
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="member">
-            <div class="pic"><img src="{{ asset('eNno/assets/img/team/.jpg') }}" class="img-fluid" alt=""></div>
+            <div class="pic"><img src="{{ asset('eNno/assets/img/team/Jeri.jpg') }}" class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>Jeri Gunawan</h4>
                 <span>10123408</span>

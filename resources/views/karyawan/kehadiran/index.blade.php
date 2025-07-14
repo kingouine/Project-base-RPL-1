@@ -86,15 +86,6 @@
                                 </button>
                             </form>
                             @endif
-                            <form method="POST" action="{{ route('kehadiranDestroy', $row->aten_id) }}"
-                                style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                    data-id="{{ $row->aten_id }}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                     @empty
