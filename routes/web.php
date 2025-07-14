@@ -70,6 +70,8 @@ Route::put('tugas/karyawan/update/{id}', [TugasController::class, 'updateTugasKa
 Route::get('evaluasi', [EvaluasiController::class, 'index'])->name('evaluasi');
 Route::get('evaluasi/create', [EvaluasiController::class, 'create'])->name('evaluasiCreate');
 Route::post('evaluasi/store', [EvaluasiController::class, 'store'])->name('evaluasiStore');
+Route::get('evaluasi/edit/{id}', [EvaluasiController::class, 'edit'])->name('evaluasiEdit');
+Route::put('evaluasi/update/{id}', [EvaluasiController::class, 'update'])->name('evaluasiUpdate');
 
 //dashboard
 Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');

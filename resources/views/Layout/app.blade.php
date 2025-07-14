@@ -51,7 +51,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            @if(Auth::user()->jabatan == 'Admin')
             <!-- Heading -->
             <div class="sidebar-heading">
                 MENU ADMIN
@@ -73,11 +73,9 @@
                     <i class="fas fa-clock"></i>
                     <span>Data Kehadiran</span></a>
             </li>
-
-                        <!-- Divider -->
-                        <hr class="sidebar-divider">
-
+            @endif
             <!-- Heading -->
+            @if(Auth::user()->jabatan == 'Karyawan')
             <div class="sidebar-heading">
                 MENU KARYAWAN
             </div>
@@ -94,9 +92,11 @@
                     <i class="fas fa-clock"></i>
                     <span>Data Kehadiran</span></a>
             </li>
+            @endif
 
             <!-- Heading -->
             <div class="sidebar-heading">
+            @if(Auth::user()->jabatan == 'Manajer')
                 MENU MANAJER
             </div>
 
@@ -113,11 +113,12 @@
                     <span>Data Kehadiran</span></a>
             </li>
             
-            <li class="nav-item">
+            <li class="nav-item {{ $menuManajerEvaluasi ?? '' }}">
                 <a class="nav-link" href="{{ route('evaluasi') }}">
                     <i class="fas fa-tasks"></i>
                     <span>Evaluasi Karyawan</span></a>
             </li>
+            @endif
 
 
             <!-- Divider -->
@@ -210,16 +211,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

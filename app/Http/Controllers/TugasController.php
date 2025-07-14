@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Tugas;
 use App\Exports\tugasExport;
@@ -23,10 +24,16 @@ class TugasController extends Controller
 
     public function tugasKaryawan() {
         $user = Auth::user();
+
+        $adaTugasBaru = Tugas::where('user_id', $user->id)
+        ->where('status', 0)
+        ->whereDate('created_at', Carbon::today())
+        ->exists();
         $data = array(
             'title' => 'Data Tugas Karyawan',
             'menuKaryawanTugas' => "active",
             'tugas' => Tugas::with('user')->where('user_id', $user->id)->get(),
+            'adaTugasBaru' => $adaTugasBaru,
         );
         return view ('karyawan/tugas/index', $data);
     }
@@ -114,6 +121,11 @@ class TugasController extends Controller
         $tugas->tanggal_selesai = $request->tanggal_selesai;
         $tugas->status = $request->status;
         $tugas->save();
+        if ($request->status == 2) {
+            $user = $tugas->user;
+            $user->is_tugas = false;
+            $user->save();
+        }
 
         return redirect()->route('tugas')->with('success', 'Data Berhasil Diedit');
 
@@ -135,7 +147,13 @@ class TugasController extends Controller
     $tugas->status = $request->status;
     $tugas->save();
 
-    return redirect()->route('tugas')->with('success', 'Status tugas berhasil diperbarui.');
+    if ($request->status == 2) {
+        $user = $tugas->user;
+        $user->is_tugas = false;
+        $user->save();
+    }
+
+    return redirect()->route('tugasKaryawan')->with('success', 'Status tugas berhasil diperbarui.');
 }
     public function destroy($id)
 {

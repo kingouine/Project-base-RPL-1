@@ -14,7 +14,8 @@ class EvaluasiController extends Controller
 {
     public function index()
     {
-        $data = [
+        $data = [ 
+            'menuManajerEvaluasi' => "active",
             'title' => 'Data Evaluasi Kinerja',
             'evaluasi' => Auth::user()->jabatan == 'Manajer'
                 ? Evaluasi::with('user')->get()
@@ -89,5 +90,27 @@ class EvaluasiController extends Controller
     ]);
 
     return redirect()->route('evaluasi')->with('success', 'Evaluasi berhasil disimpan.');
+}
+
+public function edit($id)
+{
+    $data = [
+        'title' => 'Edit Evaluasi Kinerja',
+        'evaluasi' => Evaluasi::with('user')->findOrFail($id),
+    ];
+    return view('manajer/evaluasi/edit', $data);
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'keterangan' => 'nullable|string|max:255',
+    ]);
+
+    $evaluasi = Evaluasi::findOrFail($id);
+    $evaluasi->keterangan = $request->keterangan;
+    $evaluasi->save();
+
+    return redirect()->route('evaluasi')->with('success', 'Evaluasi berhasil diperbarui.');
 }
 }
