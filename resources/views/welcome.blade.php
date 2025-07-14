@@ -71,7 +71,7 @@
         <div class="row gy-4">
           <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
             <h1>KERJAKEUN</h1>
-            <p>Aplikasi Manajemen Tugas</p>
+            <p>Aplikasi Manajemen Pekerjaan</p>
             <div class="d-flex">
             <a class="btn-get-started" href="{{ route ('login') }}">Login</a>
               
@@ -92,7 +92,6 @@
       <div class="container section-title" data-aos="fade-up">
         <span>Tentang Kami<br></span>
         <h2>Tentang Kami</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
       </div><!-- End Section Title -->
 
       <div class="container">
@@ -102,19 +101,8 @@
             <img src="assets/img/about.png" class="img-fluid" alt="">
           </div>
           <div class="col-xl-12 content" data-aos="fade-up" data-aos-delay="200">
-            <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
             <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Duis aute irure dolor in reprehenderit in voluptate velit.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li>
-            </ul>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
+            Kami adalah sekelompok mahasiswa Teknik Informatika UNIKOM yang bukan hanya belajar tentang kode dan algoritma, tapi juga membangun mimpi dan solusi digital. Berbekal semangat inovasi, kerja tim, dan rasa ingin tahu yang tinggi, kami berkolaborasi dalam mengembangkan perangkat lunak yang tidak hanya fungsional, tapi juga berdampak. Bagi kami, setiap baris kode adalah langkah kecil menuju perubahan besar di dunia teknologi.
             </p>
           </div>
         </div>
@@ -169,22 +157,6 @@
             </div>
           </div><!-- End Team Member -->
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="member">
-            <div class="pic"><img src="{{ asset('eNno/assets/img/team/Algih fari.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Alghifari Mumammad Bintang Salsabil</h4>
-                <span>10123410</span>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
             <div class="member">
             <div class="pic"><img src="{{ asset('eNno/assets/img/team/Raihan.jpg') }}" class="img-fluid" alt=""></div>
@@ -200,6 +172,23 @@
               </div>
             </div>
           </div><!-- End Team Member -->
+          
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="member">
+            <div class="pic"><img src="{{ asset('eNno/assets/img/team/Algihfari.jpg') }}" class="img-fluid" alt=""></div>
+              <div class="member-info">
+                <h4>Alghifari Mumammad Bintang Salsabil</h4>
+                <span>10123410</span>
+                <div class="social">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+                </div>
+              </div>
+            </div>
+          </div><!-- End Team Member -->
+
 
           <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
             <div class="member">

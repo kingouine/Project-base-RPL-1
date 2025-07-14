@@ -6,6 +6,13 @@
     {{ $title }}
 </h1>
 
+@if ($adaTugasBaru)
+<div class="alert alert-info">
+    <strong><i class="fas fa-bell"></i> Tugas Baru!</strong>
+    Anda memiliki tugas baru yang belum dikerjakan. Silakan cek dan selesaikan tugas Anda.
+</div>
+@endif
+
 <div>
     <a href="{{ route('excelTugas') }}" class="btn btn-sm btn-success">
         <i class="fas fa-file-excel mr-2"></i>
@@ -16,13 +23,6 @@
         PDF
     </a>
 </div>
-@if ($adaTugasBaru)
-<div class="alert alert-info">
-    <strong><i class="fas fa-bell"></i> Tugas Baru!</strong>
-    Anda memiliki tugas baru yang belum dikerjakan. Silakan cek dan selesaikan tugas Anda.
-</div>
-@endif
-
 </div>
 <div class="card-body">
     <div class="table-responsive">
@@ -68,10 +68,15 @@
                     </td>
 
                     <td class="text-center">
+                        <button class="btn btn-sm btn-info" data-toggle="modal"
+                            data-target="#modalDetailTugas{{ $item->id }}">
+                            <i class="fas fa-eye"></i>
+                        </button>
                         <a href="{{ route('tugasKaryawanEdit', $item->id) }}" class="btn btn-sm btn-warning">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
+                    @include('karyawan/tugas/modal', ['item' => $item])
                 </tr>
                 @endforeach
             </tbody>

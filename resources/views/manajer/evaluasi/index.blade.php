@@ -5,6 +5,9 @@
     <i class="fas fa-star"></i>
     {{ $title }}
 </h1>
+<div class="alert alert-info">
+    <strong><i class="fas fa-exclamation-triangle"></i> Pengisian Evaluasi Kinerja Dilakukan Pada Tanggal 1 Setiap Bulan</strong>
+</div>
 <div class="card">
     <div class="card-header d-flex flex-wrap justify-content-center justify-content-xl-between">
         <div class="mb-1 mr-2">
@@ -14,11 +17,11 @@
             </a>
         </div>
         <div>
-            <a href="#" class="btn btn-sm btn-success">
+            <a href="{{ route('evaluasiExcel') }}" class="btn btn-sm btn-success">
                 <i class="fas fa-file-excel mr-2"></i>
                 Excel
             </a>
-            <a href="#" class="btn btn-sm btn-danger" target='___blank'>
+            <a href="{{ route('evaluasiPdf') }}" class="btn btn-sm btn-danger" target='___blank'>
                 <i class="fas fa-file-pdf mr-2"></i>
                 PDF
             </a>
@@ -66,14 +69,25 @@
                                 </span>
                             </td>
                             <td class="text-center">
-                            <a href="{{ route('evaluasiEdit',$e->id) }}" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit">
-                                                    </i>
-                                                </a>
                                 <button class="btn btn-sm btn-info" data-toggle="modal"
                                     data-target="#modalDetail{{ $e->id }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
+
+                                <a href="{{ route('evaluasiEdit',$e->id) }}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit">
+                                    </i>
+                                </a>
+
+                                <form method="POST" action="{{ route('evaluasiDestroy', $e->id) }}"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                             @include('manajer/evaluasi/modal')
                         </tr>

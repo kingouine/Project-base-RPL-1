@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Tugas;
 use App\Models\Evaluasi;
 use App\Models\Kehadiran;
-use App\Models\Tugas;
-use App\Models\User;
-use Carbon\Carbon;
-use Auth;
+use Illuminate\Http\Request;
+use App\Exports\EvaluasiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class EvaluasiController extends Controller
 {
@@ -113,4 +117,34 @@ public function update(Request $request, $id)
 
     return redirect()->route('evaluasi')->with('success', 'Evaluasi berhasil diperbarui.');
 }
+
+public function destroy($id) {
+    $evaluasi = Evaluasi::findOrFail($id);
+    $evaluasi -> delete();
+
+    return redirect()->route('evaluasi')->with('success','Data Berhasil Di Hapus');
+}
+
+public function exportExcel()
+{
+    $user = Auth::user();
+    $filename = 'Evaluasi_' . now()->format('d-m-Y_H.i.s') . '.xlsx';
+
+    return Excel::download(new EvaluasiExport($user->id, $user->jabatan), $filename);
+}
+
+public function pdfEvaluasi()
+{
+    $user = Auth::user();
+    $tanggal = now()->format('d-m-Y');
+    $jam = now()->format('H:i:s');
+
+    $evaluasi = $user->jabatan == 'Manajer'
+        ? Evaluasi::with('user')->get()
+        : Evaluasi::with('user')->where('user_id', $user->id)->get();
+
+    $pdf = Pdf::loadView('manajer.evaluasi.pdf', compact('evaluasi', 'tanggal', 'jam'));
+    return $pdf->stream('Data_Evaluasi_Kinerja_' . now()->format('d-m-Y_H-i-s') . '.pdf');
+}
+
 }

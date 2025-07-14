@@ -32,7 +32,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-briefcase"></i>
                 </div>
@@ -115,8 +115,8 @@
             
             <li class="nav-item {{ $menuManajerEvaluasi ?? '' }}">
                 <a class="nav-link" href="{{ route('evaluasi') }}">
-                    <i class="fas fa-tasks"></i>
-                    <span>Evaluasi Karyawan</span></a>
+                    <i class="fas fa-star"></i>
+                    <span>Evaluasi Kinerja</span></a>
             </li>
             @endif
 
@@ -184,10 +184,6 @@
                                     <div class="badge badge-success justify-content-center d-flex">
                                         {{ auth()->user()->jabatan }}
                                     </div>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">

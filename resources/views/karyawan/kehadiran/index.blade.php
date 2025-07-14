@@ -9,6 +9,10 @@
     <strong>Hari ini:</strong> {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('l, d F Y — H:i:s') }}
 </div>
 
+<div class="alert alert-info">
+    <strong><i class="fas fa-exclamation-triangle"></i> Jangan Lupa Clock-In Pada Saat Mulai Bekerja Dan Clock-Out Pada Saat Selesai Bekerja</strong>
+</div>
+
 <div class="card">
     <div class="card-header d-flex flex-wrap justify-content-center justify-content-xl-between">
 
@@ -77,6 +81,12 @@
                             @endif
                         </td>
                         <td>
+                        <button class="btn btn-sm btn-info" data-toggle="modal"
+                                data-target="#modalDetailKehadiran{{ $row->aten_id }}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            @include('admin/kehadiran/modal', ['item' => $row])
+                            
                             @if (is_null($row->out_time))
                             <form method="POST" action="{{ route('kehadiranClockOut', ['aten_id' => $row->aten_id]) }}"
                                 style="display:inline;">

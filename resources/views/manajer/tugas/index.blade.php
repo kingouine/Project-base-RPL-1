@@ -68,6 +68,10 @@
                         </td>
 
                         <td class="text-center">
+                        <button class="btn btn-sm btn-info" data-toggle="modal"
+                            data-target="#modalDetailTugas{{ $item->id }}">
+                            <i class="fas fa-eye"></i>
+                        </button>
                             <a href="{{ route('tugasEdit', $item->id) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -79,6 +83,7 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
+                            @include('manajer/tugas/modal', ['item' => $item])
                         </td>
                     </tr>
                     @endforeach

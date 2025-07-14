@@ -67,12 +67,18 @@ Route::get('tugasKaryawan', [TugasController::class, 'tugasKaryawan'])->name('tu
 Route::get('tugas/karyawan/edit/{id}', [TugasController::class, 'editTugasKaryawan'])->name('tugasKaryawanEdit');
 Route::put('tugas/karyawan/update/{id}', [TugasController::class, 'updateTugasKaryawan'])->name('tugasKaryawanUpdate');
 
+//evaluasi Karyawan
 Route::get('evaluasi', [EvaluasiController::class, 'index'])->name('evaluasi');
 Route::get('evaluasi/create', [EvaluasiController::class, 'create'])->name('evaluasiCreate');
 Route::post('evaluasi/store', [EvaluasiController::class, 'store'])->name('evaluasiStore');
 Route::get('evaluasi/edit/{id}', [EvaluasiController::class, 'edit'])->name('evaluasiEdit');
 Route::put('evaluasi/update/{id}', [EvaluasiController::class, 'update'])->name('evaluasiUpdate');
+Route::delete('evaluasi/destroy/{id}', [EvaluasiController::class, 'destroy'])->name('evaluasiDestroy');
+
+Route::get('evaluasi/excel', [EvaluasiController::class, 'exportExcel'])->name('evaluasiExcel');
+Route::get('evaluasi/pdf', [EvaluasiController::class, 'pdfEvaluasi'])->name('evaluasiPdf');
 
 //dashboard
 Route::get('dashboard',[DashboardController::class,'index'])->name('dashboard');
+Route::get('dashboardKaryawan', [DashboardController::class, 'dashboardKaryawan'])->name('dashboardKaryawan');
 });

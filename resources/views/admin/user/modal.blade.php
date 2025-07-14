@@ -1,54 +1,37 @@
-<!-- Modal -->
-<div class="modal fade" id="exampleModal{{ $item->id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ $item->id }}" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+<!-- Modal Detail User -->
+<div class="modal fade" id="modalDetailUser{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="modalDetailUserLabel{{ $item->id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header bg-danger">
-        <h5 class="modal-title text-white" id="exampleModalLabel{{ $item->id }}">Hapus {{ $title }} ?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalDetailUserLabel{{ $item->id }}">Detail User - {{ $item->nama }}</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
-      <div class="modal-body text-left">
-        <div class="row">
-          <div class="col-6">Nama</div>
-          <div class="col-6">: {{ $item->nama }}</div>
-        </div>
-        <div class="row">
-          <div class="col-6">Email</div>
-          <div class="col-6">: <span class="badge badge-secondary">{{ $item->email }}</span></div>
-        </div>
-        <div class="row">
-          <div class="col-6">Jabatan</div>
-          <div class="col-6">:
-            @if ($item->jabatan == 'Admin')
-              <span class="badge badge-dark">{{ $item->jabatan }}</span>
-            @elseif ($item->jabatan == 'Manajer')
-              <span class="badge badge-info">{{ $item->jabatan }}</span>
-            @else
-              <span class="badge badge-primary">{{ $item->jabatan }}</span>
-            @endif
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">Status</div>
-          <div class="col-6">:
-            @if (!$item->is_tugas)
-              <span class="badge badge-danger">Belum Ditugaskan</span>
-            @else
-              <span class="badge badge-success">Sudah Ditugaskan</span>
-            @endif
-          </div>
-        </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Nama:</strong> {{ $item->nama }}
+          </li>
+          <li class="list-group-item">
+            <strong>Email:</strong> {{ $item->email }}
+          </li>
+          <li class="list-group-item">
+            <strong>Jabatan:</strong> {{ $item->jabatan }}
+          </li>
+          <li class="list-group-item">
+            <strong>Status:</strong>
+            <span class="badge {{ $item->is_tugas ? 'badge-success' : 'badge-danger' }}">
+              {{ $item->is_tugas ? 'Ditugaskan' : 'Belum Ditugaskan' }}
+            </span>
+          </li>
+          <li class="list-group-item">
+            <strong>Dibuat Pada:</strong> {{ $item->created_at->translatedFormat('d F Y, H:i') }}
+          </li>
+        </ul>
       </div>
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batalkan</button>
-        <form action="{{ route('userDestroy', $item->id) }}" method="post">
-          @csrf
-          @method('delete')
-          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
