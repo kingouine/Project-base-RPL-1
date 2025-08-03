@@ -21,6 +21,8 @@ return new class extends Migration
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
             $table->boolean('status') ->default(false);
+            $table->string('file')->nullable();
+            $table->text('timbal_balik')->nullable();
             $table->timestamps();
         });
     }

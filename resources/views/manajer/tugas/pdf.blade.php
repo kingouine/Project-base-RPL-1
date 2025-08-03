@@ -1,4 +1,4 @@
-<h1 align="center">Data Kehadiran</h1>
+<h1 align="center">Data Tugas</h1>
 
 <p align="center">
     Dicetak pada Tanggal {{ $tanggal }} Pukul {{ $jam }}
@@ -27,8 +27,10 @@
                 <td>Belum Selesai</td>
                 @elseif ($item->status == 1) 
                 <td>Sedang Dikerjakan</td>
-                @else ()    
+                @elseif ($item->status == 2)    
                 <td>Selesai</td>
+                @else ()
+                <td>Proses Validasi</td>
                 @endif
             </tr>
         @endforeach

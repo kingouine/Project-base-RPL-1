@@ -58,9 +58,13 @@ Route::get('tugas/edit/{id}',[TugasController::class,'edit'])->name('tugasEdit')
 Route::post('tugas/update/{id}',[TugasController::class,'update'])->name('tugasUpdate');
 Route::delete('tugas/destroy/{id}', [TugasController::class, 'destroy'])->name('tugasDestroy');
 Route::post('tugas/store',[TugasController::class,'store'])->name('tugasStore');
+Route::post('/tugas/upload/{id}', [TugasController::class, 'uploadFile'])->name('tugas.uploadFile');
+
 
 Route::get('tugas/excel',[TugasController::class,'excelTugas'])->name('excelTugas');
 Route::get('tugas/pdf',[TugasController::class,'pdfTugas'])->name('pdfTugas');
+Route::get('tugas/pdf/karyawan', [TugasController::class, 'exportPdfKaryawan'])->name('exportPdfKaryawan');
+
 
 // Route untuk karyawan edit tugas
 Route::get('tugasKaryawan', [TugasController::class, 'tugasKaryawan'])->name('tugasKaryawan');

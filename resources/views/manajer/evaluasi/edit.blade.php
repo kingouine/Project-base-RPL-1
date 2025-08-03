@@ -1,10 +1,20 @@
 @extends('layout.app')
 
 @section('content')
-<h4>{{ $title }}</h4>
-
+<h1 class="h3 mb-4 text-gray-800">
+    <i class="fas fa-plus"></i>
+    {{ $title }}
+</h1>
 <div class="card">
-    <div class="card-body">
+    <div class="card-header bg-primary">
+        <a href="{{ route('evaluasi') }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-arrow-left"></i>
+            Kembali
+        </a>
+        <div>
+        </div>
+        </div>
+        <div class = "card-body">
         <form action="{{ route('evaluasiUpdate', $evaluasi->id) }}" method="post">
             @csrf
             @method('PUT')

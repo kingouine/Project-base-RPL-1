@@ -4,30 +4,27 @@
 <h1 class="h3 mb-4 text-gray-800">
     <i class="fas fa-calendar-check"></i> {{ $title }}
 </h1>
-{{-- Tanggal & Jam --}}
+
 <div class="mb-1 text-gray-700">
     <strong>Hari ini:</strong> {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('l, d F Y — H:i:s') }}
 </div>
 
 <div class="alert alert-info">
-    <strong><i class="fas fa-exclamation-triangle"></i> Jangan Lupa Clock-In Pada Saat Mulai Bekerja Dan Clock-Out Pada Saat Selesai Bekerja</strong>
+    <strong><i class="fas fa-exclamation-triangle"></i> Jangan Lupa Clock-In Pada Saat Mulai Bekerja Dan Clock-Out Pada
+        Saat Selesai Bekerja</strong>
 </div>
 
 <div class="card">
     <div class="card-header d-flex flex-wrap justify-content-center justify-content-xl-between">
+        <div>
+            <a href="{{ route('userExcelKehadiran') }}" class="btn btn-sm btn-success">
+                <i class="fas fa-file-excel mr-2"></i> Excel
+            </a>
+            <a href="{{ route('userPdfKehadiran') }}" class="btn btn-sm btn-danger" target="_blank">
+                <i class="fas fa-file-pdf mr-2"></i> PDF
+            </a>
+        </div>
 
-    <div>
-        <a href="{{ route('userExcelKehadiran') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-file-excel mr-2"></i>
-            Excel
-        </a>
-        <a href="{{ route('userPdfKehadiran') }}" class="btn btn-sm btn-danger" target='___blank'>
-            <i class="fas fa-file-pdf mr-2"></i>
-            PDF
-        </a>
-    </div>
-    
-        {{-- Tombol Clock In --}}
         @php
         $user = auth()->user();
         $kehadiranAktif = $kehadirans->where('user_id', $user->id)->firstWhere('out_time', null);
@@ -88,6 +85,7 @@
                                 <i class="fas fa-eye"></i>
                             </button>
                             @include('admin/kehadiran/modal', ['item' => $row])
+
                             @if (is_null($row->out_time))
                             <form method="POST" action="{{ route('kehadiranClockOut', ['aten_id' => $row->aten_id]) }}"
                                 style="display:inline;">
@@ -97,11 +95,12 @@
                                 </button>
                             </form>
                             @endif
-                            <form method="POST" action="{{ route('kehadiranDestroy', $row->aten_id) }}" style="display:inline;">
+
+                            <form method="POST" action="{{ route('kehadiranDestroy', $row->aten_id) }}"
+                                class="d-inline form-hapus">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                <button type="submit" class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
@@ -109,17 +108,46 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="text-center">Tidak ada data kehadiran</td>
+                        <td colspan="8" class="text-center">Tidak ada data kehadiran</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        {{-- Pagination --}}
         <div class="mt-3">
             {{ $kehadirans->links() }}
         </div>
     </div>
 </div>
+
+{{-- CDN SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- Script SweetAlert --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.form-hapus').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+
+</script>
 @endsection

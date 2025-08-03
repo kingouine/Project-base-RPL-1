@@ -35,6 +35,7 @@
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
                         <th>Status Tugas</th>
+                        <th>File</th>
                         <th>
                             <i class="fas fa-cogs"></i>
                         </th>
@@ -59,12 +60,24 @@
                             @elseif ($item->status == 1)
                             <span class="badge badge-warning">
                                 Sedang Dikerjakan
+                            @elseif ($item->status == 2)
+                            <span class="badge badge-success">
+                                Selesai
                                 @else
-                                <span class="badge badge-success">
-                                    Selesai
+                                <span class="badge badge-primary">
+                                    Proses Validasi
                                 </span>
                                 @endif
                             </span>
+                        </td>
+                        <td>
+                            @if ($item->file)
+                                <a href="{{ asset('storage/tugas/' . $item->file) }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-file-pdf"></i> Lihat File
+                                </a>
+                            @else
+                                <span class="text-muted">Belum Upload</span>
+                            @endif
                         </td>
 
                         <td class="text-center">
@@ -75,16 +88,16 @@
                             <a href="{{ route('tugasEdit', $item->id) }}" class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form method="POST" action="{{ route('tugasDestroy', $item->id) }}" style="display:inline;">
-                                @csrf
+                            <form method="POST" action="{{ route('tugasDestroy', $item->id) }}" class="d-inline form-hapus">
+                            @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                <button type="submit" class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
                             @include('manajer/tugas/modal', ['item' => $item])
                         </td>
+                        
                     </tr>
                     @endforeach
                 </tbody>
@@ -105,4 +118,33 @@
 </div>
 </div>
 </div>
+{{-- CDN SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- Script SweetAlert --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.form-hapus').forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+
+</script>
 @endsection

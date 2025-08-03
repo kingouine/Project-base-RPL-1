@@ -41,11 +41,25 @@ class EvaluasiController extends Controller
 {
     $request->validate([
         'user_id' => 'required|exists:users,id',
-        'periode' => 'required|date',
+        'periode' => 'required',
+        'keterangan' => 'required',
+    ], [
+        'periode.required' => 'Periode Tidak Boleh Kosong',
+        'keterangan.required' => 'Keterangan tidak boleh kosong',
     ]);
 
     $userId = $request->user_id;
     $periode = Carbon::parse($request->periode);
+    $existing = Evaluasi::where('user_id', $userId)
+        ->whereMonth('periode', $periode->month)
+        ->whereYear('periode', $periode->year)
+        ->first();
+
+    if ($existing) {
+        return redirect()->back()->with('error', 'Evaluasi untuk karyawan ini di bulan tersebut sudah pernah dilakukan.');
+    }
+    $evaluasi = new Evaluasi;
+    $evaluasi->periode = $request->periode;
 
     // Ambil data kehadiran dalam bulan tertentu
     $kehadirans = Kehadiran::where('user_id', $userId)

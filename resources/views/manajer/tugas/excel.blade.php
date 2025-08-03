@@ -27,8 +27,10 @@
                 <td>Belum Selesai</td>
                 @elseif ($item->status == 1) 
                 <td>Sedang Dikerjakan</td>
-                @else ()    
+                @elseif ($item->status == 2)    
                 <td>Selesai</td>
+                @else ()
+                <td>Proses Validasi</td>
                 @endif
             </tr>
         @endforeach

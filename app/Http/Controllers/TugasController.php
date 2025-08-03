@@ -10,10 +10,13 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use App\Notifications\TimbalBalikNotification;
 
 class TugasController extends Controller
 {
     public function index(){
+        $data = Tugas::with('user')->latest()->get();
         $data = array(
             'title' => 'Data Tugas',
             'menuManajerTugas' => "active",
@@ -51,17 +54,17 @@ class TugasController extends Controller
         $request->validate([
             'user_id' => 'required',
             'tugas' => 'required',
-            'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required',
-
-
+            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
         ],[
             'user_id.required' => 'Nama Tidak Boleh Kosong',
             'tugas.required' => 'Tugas Tidak Boleh Kosong',
             'tanggal_mulai.required' => 'Tanggal Mulai Tidak Boleh Kosong',
+            'tanggal_mulai.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini',
             'tanggal_selesai.required' => 'Tanggal Selesai Tidak Boleh Kosong',
-
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai',
         ]);
+        
         $user = User::findOrFail($request->user_id);
         $tugas = new Tugas;
         $tugas->user_id = $request->user_id;
@@ -105,21 +108,23 @@ class TugasController extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'tugas' => 'required',
-            'tanggal_mulai' => 'required',
-            'tanggal_selesai' => 'required',
-
-
+            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
         ],[
             'tugas.required' => 'Tugas Tidak Boleh Kosong',
             'tanggal_mulai.required' => 'Tanggal Mulai Tidak Boleh Kosong',
+            'tanggal_mulai.after_or_equal' => 'Tanggal mulai tidak boleh sebelum hari ini',
             'tanggal_selesai.required' => 'Tanggal Selesai Tidak Boleh Kosong',
-
+            'tanggal_selesai.after_or_equal' => 'Tanggal selesai tidak boleh sebelum tanggal mulai',
         ]);
+        
         $tugas = Tugas::findOrFail($id);
+        
         $tugas->tugas = $request->tugas;
         $tugas->tanggal_mulai = $request->tanggal_mulai;
         $tugas->tanggal_selesai = $request->tanggal_selesai;
         $tugas->status = $request->status;
+        $tugas->timbal_balik = $request->timbal_balik;
         $tugas->save();
         if ($request->status == 2) {
             $user = $tugas->user;
@@ -134,17 +139,32 @@ class TugasController extends Controller
     public function updateTugasKaryawan(Request $request, $id)
 {
     $tugas = Tugas::findOrFail($id);
+
     if ($tugas->user_id !== Auth::id()) {
         abort(403, 'Anda tidak berhak mengubah tugas ini.');
     }
 
     $request->validate([
         'status' => 'required|in:0,1,2',
-    ], [
-        'status.required' => 'Status tidak boleh kosong.',
+        'file' => 'nullable|mimes:pdf,doc,docx|max:2048',
     ]);
 
     $tugas->status = $request->status;
+
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        if (!Storage::exists('public/tugas')) {
+            Storage::makeDirectory('/storage/app/public/tugas');
+        }
+    
+        $file->storeAs('tugas', $filename, 'public'); // ⬅️ PENTING  
+    
+        $tugas->file = $filename;
+        $tugas->status = 3;
+    }
+
     $tugas->save();
 
     if ($request->status == 2) {
@@ -153,8 +173,37 @@ class TugasController extends Controller
         $user->save();
     }
 
-    return redirect()->route('tugasKaryawan')->with('success', 'Status tugas berhasil diperbarui.');
+    return redirect()->route('tugasKaryawan')->with('success', 'Status dan file tugas berhasil diperbarui.');
 }
+
+public function uploadFile(Request $request, $id)
+{
+    $tugas = Tugas::findOrFail($id);
+
+    if ($tugas->user_id !== Auth::id()) {
+        abort(403);
+    }
+
+    $request->validate([
+        'file' => 'required|file|mimes:pdf|max:2048',
+    ]);
+
+    $file = $request->file('file');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $file->storeAs('tugas', $filename, 'public');
+
+    if ($tugas->file && Storage::disk('public')->exists('tugas/' . $tugas->file)) {
+        Storage::disk('public')->delete('tugas/' . $tugas->file);
+    }
+
+    $tugas->file = $filename;
+    $tugas->status = 3; 
+    $tugas->save();
+
+    return redirect()->back()->with('success', 'File berhasil diunggah dan tugas ditinjau.');
+}
+
+
     public function destroy($id)
 {
         $tugas = Tugas::findOrFail($id);
@@ -185,4 +234,12 @@ public function pdfTugas() {
     return $pdf->stream('Data Tugas_'.$filename.'.pdf');
 }
 
+public function exportPdfKaryawan()
+{
+    $userId = Auth::id(); 
+    $tugas = Tugas::where('user_id', $userId)->get();
+    $pdf = PDF::loadView('karyawan/tugas/pdf', ['tugas' => $tugas]);
+
+    return $pdf->stream('tugas_karyawan.pdf');
+}
 }
